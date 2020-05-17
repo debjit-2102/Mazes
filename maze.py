@@ -1,16 +1,76 @@
 #!/usr/bin/python3
-
+from tkinter import *
 import subprocess
 import os.path
 import os
 
-def main():
-    print("*=========================================*")
-    print("*          MAZE GENERATOR/SOLVER          *")
-    print("*=========================================*")
-    print()
+row = 0
+column = 0
+s = solv_select = 1
+g = gen_select = 1
 
-    check_for_binaries()
+
+
+master = Tk()
+var1 = IntVar()
+var1.set(1)
+var2 = IntVar()
+var2.set(1)
+
+def quit_loop():
+    global column
+    global row
+
+    global s
+    global g
+    column = columnbox.get("1.0", "end-1c")
+    row = rowbox.get("1.0", "end-1c")
+    g = var1.get()
+    s = var2.get()
+
+    master.quit()
+
+master.geometry("350x450")
+#master['background']='#103E36'
+
+
+
+
+
+Label(master, text = "Maze Generator And Solver", bg='#103E36',fg='white').grid(row = 0, columnspan=2)
+
+
+Label(master, text="").grid(row=1)
+
+columnbox = Text(master, height=1, width=10)
+columnbox.grid(row=2, column=1)
+Label(master, text = "Number of Columns").grid(row=2, column=0, sticky=W)
+
+rowbox = Text(master, height=1, width=10)
+rowbox.grid(row=3, column=1)
+Label(master, text = "Number of Rows").grid(row=3, column=0, sticky=W)
+
+Label(master, text="").grid(row=4)
+
+Label(master, text = "Select a Generation Algorithm", bg = '#103E36', fg='white').grid(row=5, sticky=W)
+Radiobutton(master, text = "Randomized Prim's", variable=var1, value = 1).grid(row=6, sticky=W)
+Radiobutton(master, text = "Randomized Depth-First Search", variable=var1, value = 2).grid(row=7, sticky=W)
+Radiobutton(master, text = "Randomized Kruskal's", variable = var1, value = 3).grid(row=8, sticky=W)
+Label(master, text="").grid(row=9)
+Label(master, text = "Select a Solving Algorithm", bg = '#103E36', fg='white').grid(row=10, sticky=W)
+#Radiobutton(master, text = "Player Controlled", variable=var2, value = 1).grid(row=11, sticky=W)
+Radiobutton(master, text = "Recursive Backtracking", variable=var2, value = 2).grid(row=12, sticky=W)
+Radiobutton(master, text = "Breadth First Search", variable = var2, value = 3).grid(row=13, sticky=W)
+Radiobutton(master, text = "Depth First Search", variable = var2, value = 4).grid(row=14, sticky=W)
+#Radiobutton(master, text = "A*", variable = var2, value = 5).grid(row=15, sticky=W)
+Label(master, text="").grid(row=16)
+Button(master, text = "Submit", command=quit_loop).grid(row=17, columnspan=2)
+#submit = Button(master, height=1, width=10, text="submit", command=quit_loop)
+#submit.grid(row=12, columnspan=2)
+master.mainloop()
+def main():
+
+    #check_for_binaries()
 
     generate_call, unsolved = get_generation_call()
     solve_call = get_solve_call(unsolved)
@@ -20,28 +80,31 @@ def main():
 
 
 def get_generation_call():
-    print("How many rows (0 for maximum)?")
-    rows = check_range(0, 100)
 
-    print("How many cols (0 for maximum)?")
-    cols = check_range(0, 200)
 
-    print("Select a generation algorithm:")
-    print("1) Randomized Prim's")
-    print("2) Randomized Depth-First Search")
-    print("3) Randomized Kruskal's")
-    generation_alg = check_range(1, 3)
+    #rows = check_range(0, 100)
+    rows = int(row)
+    global g
 
-    print("Would you like to animate maze generation (y/n)?")
+    #cols = check_range(0, 100)
+    cols = int(column)
+
+
+    #generation_alg = check_range(1, 3)
+    generation_alg = int(g)
+
+    #print("Would you like to animate maze generation (y/n)?")
     animate_generation = yes_or_no()
 
     speed = 0
     if animate_generation:
-        print("Enter animation speed (delay in milliseconds)")
-        speed = check_range(0, 10000);
+        #print("Enter animation speed (delay in milliseconds)")
+        speed = int(10)
+        #speed = check_range(0, 10000)
 
-    print("Please enter a filename to save the unsolved maze to")
-    filename = get_filename("unsolved.txt")
+    #print("Please enter a filename to save the unsolved maze to")
+    #filename = get_filename("unsolved.txt")
+    filename = "unsolved.txt"
 
     generators = ['prims', 'dfs', 'kruskals']
 
@@ -57,27 +120,30 @@ def get_generation_call():
 
 
 def get_solve_call(input_file):
-    print("Select a solving algorithm")
-    print("1) Player Controlled")
-    print("2) Recursive Backtracking")
-    print("3) Breadth-First Search")
-    print("4) Depth-First Search")
-    print("5) A*")
-    solve_alg = check_range(1, 5)
+    global s
+
+
+
+
+
+    #solve_alg = check_range(1, 5)
+    solve_alg = int(s)
 
     speed = 0
     if solve_alg != 1:
-        print("Would you like to animate maze solving (y/n)?")
+        #print("Would you like to animate maze solving (y/n)?")
         # animate_solve = True if input(">>>") == 'y' else False
         animate_solve = yes_or_no()
         if animate_solve:
-            print("Enter animation speed (delay in milliseconds)")
-            speed = check_range(0, 10000);
+            #print("Enter animation speed (delay in milliseconds)")
+            #speed = check_range(0, 10000);
+            speed = int(10)
     else:
         animate_solve = True
 
-    print("Please enter a filename to save the solved maze to")
-    output_file = get_filename("solved.txt")
+    #print("Please enter a filename to save the solved maze to")
+    #output_file = get_filename("solved.txt")
+    output_file = "solved.txt"
 
     solvers = ['play', 'bt', 'bfs', 'dfs', 'astar']
 
@@ -109,7 +175,7 @@ def check_range(lower, upper):
 
 def yes_or_no():
     while True:
-        val = input(">>>")
+        val = 'y'
         if not val:
             return True
         if val.lower()[0] not in 'yn':
