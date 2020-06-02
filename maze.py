@@ -31,7 +31,6 @@ def quit_loop():
     master.quit()
 
 master.geometry("350x450")
-#master['background']='#103E36'
 
 
 
@@ -58,20 +57,18 @@ Radiobutton(master, text = "Randomized Depth-First Search", variable=var1, value
 Radiobutton(master, text = "Randomized Kruskal's", variable = var1, value = 3).grid(row=8, sticky=W)
 Label(master, text="").grid(row=9)
 Label(master, text = "Select a Solving Algorithm", bg = '#103E36', fg='white').grid(row=10, sticky=W)
-#Radiobutton(master, text = "Player Controlled", variable=var2, value = 1).grid(row=11, sticky=W)
+
 Radiobutton(master, text = "Recursive Backtracking", variable=var2, value = 2).grid(row=12, sticky=W)
 Radiobutton(master, text = "Breadth First Search", variable = var2, value = 3).grid(row=13, sticky=W)
 Radiobutton(master, text = "Depth First Search", variable = var2, value = 4).grid(row=14, sticky=W)
-#Radiobutton(master, text = "A*", variable = var2, value = 5).grid(row=15, sticky=W)
+
 Label(master, text="").grid(row=16)
 Button(master, text = "Submit", command=quit_loop).grid(row=17, columnspan=2)
-#submit = Button(master, height=1, width=10, text="submit", command=quit_loop)
-#submit.grid(row=12, columnspan=2)
+
 master.mainloop()
 def main():
 
-    #check_for_binaries()
-
+    
     generate_call, unsolved = get_generation_call()
     solve_call = get_solve_call(unsolved)
 
@@ -82,28 +79,27 @@ def main():
 def get_generation_call():
 
 
-    #rows = check_range(0, 100)
+    
     rows = int(row)
     global g
 
-    #cols = check_range(0, 100)
+    
     cols = int(column)
 
 
-    #generation_alg = check_range(1, 3)
+    
     generation_alg = int(g)
 
-    #print("Would you like to animate maze generation (y/n)?")
+    
     animate_generation = yes_or_no()
 
     speed = 0
     if animate_generation:
-        #print("Enter animation speed (delay in milliseconds)")
+        
         speed = int(10)
-        #speed = check_range(0, 10000)
+        
 
-    #print("Please enter a filename to save the unsolved maze to")
-    #filename = get_filename("unsolved.txt")
+    
     filename = "unsolved.txt"
 
     generators = ['prims', 'dfs', 'kruskals']
@@ -126,23 +122,19 @@ def get_solve_call(input_file):
 
 
 
-    #solve_alg = check_range(1, 5)
     solve_alg = int(s)
 
     speed = 0
     if solve_alg != 1:
-        #print("Would you like to animate maze solving (y/n)?")
-        # animate_solve = True if input(">>>") == 'y' else False
+        
         animate_solve = yes_or_no()
         if animate_solve:
-            #print("Enter animation speed (delay in milliseconds)")
-            #speed = check_range(0, 10000);
+            
             speed = int(10)
     else:
         animate_solve = True
 
-    #print("Please enter a filename to save the solved maze to")
-    #output_file = get_filename("solved.txt")
+    
     output_file = "solved.txt"
 
     solvers = ['play', 'bt', 'bfs', 'dfs', 'astar']
